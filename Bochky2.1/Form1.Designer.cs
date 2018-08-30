@@ -33,6 +33,7 @@
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.настройкиБазыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.моделиИСпецификацииToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,7 +59,8 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
-            this.closeToolStripMenuItem});
+            this.closeToolStripMenuItem,
+            this.testToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -66,20 +68,29 @@
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newToolStripMenuItem.Text = "New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "Open";
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.closeToolStripMenuItem.Text = "Close";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.testToolStripMenuItem.Text = "test";
+            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
             // settingsToolStripMenuItem
             // 
@@ -95,12 +106,14 @@
             this.настройкиБазыToolStripMenuItem.Name = "настройкиБазыToolStripMenuItem";
             this.настройкиБазыToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.настройкиБазыToolStripMenuItem.Text = "Настройки базы";
+            this.настройкиБазыToolStripMenuItem.Click += new System.EventHandler(this.настройкиБазыToolStripMenuItem_Click);
             // 
             // моделиИСпецификацииToolStripMenuItem
             // 
             this.моделиИСпецификацииToolStripMenuItem.Name = "моделиИСпецификацииToolStripMenuItem";
             this.моделиИСпецификацииToolStripMenuItem.Size = new System.Drawing.Size(213, 22);
             this.моделиИСпецификацииToolStripMenuItem.Text = "Модели и спецификации";
+            this.моделиИСпецификацииToolStripMenuItem.Click += new System.EventHandler(this.моделиИСпецификацииToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
@@ -129,6 +142,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -150,6 +164,7 @@
         private System.Windows.Forms.ToolStripMenuItem моделиИСпецификацииToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
     }
 }
 
