@@ -21,10 +21,13 @@ namespace Bochky2._1
         DataGridView ModelGrid;
         DataGridView SetsGrid;
         DataSet dtmodel;
-        DataSet dtsets;
-        Model currentSets;
+        EnteryOptionForms optionForms;
+        // DataSet dtsets;
 
-
+        ModelSpecification currentSpecification;
+        Model modelList;
+        Label TextNotification = new Label();
+        
         public Form4(OleDbConnection CONNECTION, Order order)
         {
             InitializeComponent();
@@ -35,82 +38,139 @@ namespace Bochky2._1
             this.AutoSize = false;
             this.Text = "Редактирование и создание изделий и спецификаций";
             this.Visible = true;
-        
+            
         }
 
         private void Form4_Load(object sender, EventArgs e)
         {
-            this.ModelGrid = new DataGridView();
+            modelList = new Model(CONNECTION);
+            ModelGrid = new DataGridView();
             COMMAND = new OleDbCommand();
             dtmodel = new DataSet();
-            currentSets = new Model(CONNECTION);
-            //try
-            //{
-            //    CONNECTION.Open();
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-                
-            //}
             
-            panel1.Controls.Add(this.ModelGrid);
 
+            // Отрисовка формы.            
+            splitContainer1.Panel1.Controls.Add(ModelGrid);
+            ModelGrid.BackgroundColor = Color.FromArgb(255, 255, 255);            
+            ModelGrid.Dock = DockStyle.Fill;
+            ModelGrid.Height = splitContainer1.Panel1.Height;
+            ModelGrid.RowHeadersVisible = false;
+            ModelGrid.ReadOnly = true;
 
-            this.ModelGrid.BackgroundColor = Color.FromArgb(255, 255, 255);
-            this.ModelGrid.Width = panel1.Width;
-            this.ModelGrid.Height = panel1.Height;
-            this.ModelGrid.RowHeadersVisible = false;
-            this.ModelGrid.DataSource = currentSets.GetDataSetCategory();
-            // Почему в ручную??
-            this.ModelGrid.DataMember = "Model";
+            // Назначение datasourse.
+            ModelGrid.DataSource = modelList.GetModelDataSet();            
+            ModelGrid.DataMember = modelList.ModelTableName;
 
-            this.ModelGrid.Columns[0].Width = panel1.Width / 2;
-            this.ModelGrid.Columns[1].Width = (panel1.Width / 2) - 3;
-            //.Columns(2).Visible = False
-            //'.Columns(3).Visible = False
-            this.ModelGrid.ReadOnly = true;
+            // Отрисовка полей.            
+            ModelGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            ModelGrid.Columns[0].Width = 30;
 
-            this.ModelGrid.DoubleClick += new EventHandler(ModelGrid_DoubleClick);
-            this.ModelGrid.Click += new EventHandler(ModelGrid_Click);
-
+            // Установка заголовка колонок.
+            for (int i =0; i < modelList.ModelTableHeaders.Count() ; i++ )
+            {
+                ModelGrid.Columns[i].HeaderText = modelList.ModelTableHeaders[i];
+            }
+            TextNotification.Text = "Дважды нажмите на моделе для отображения спецификации";
+            TextNotification.Location = new Point(300, 100);
+            TextNotification.Anchor = AnchorStyles.Right;
+            TextNotification.Width = 250;
+            TextNotification.Height = 200;
+            TextNotification.TextAlign = ContentAlignment.MiddleCenter;
+            splitContainer1.Panel2.Controls.Add(TextNotification);
+            TextNotification.Visible = true;
             
-        }
-        private void Form4_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-          //  CONNECTION.Close();
-        }
+            // Обработчики событий
+            ModelGrid.DoubleClick += new EventHandler(ModelGrid_DoubleClick);
+            ModelGrid.Click += new EventHandler(ModelGrid_Click);
+        }      
 
         private void ModelGrid_Click(object sender, System.EventArgs e)
         {
-            panel2.Controls.Clear();
+            splitContainer1.Panel2.Controls.Clear();
+            splitContainer1.Panel2.Controls.Add(TextNotification);
+            TextNotification.Visible = true;
         }
+
+        // Двойной клик на форме выбора моделей.
         private void ModelGrid_DoubleClick(object sender, System.EventArgs e)
         {
-            this.SetsGrid = new DataGridView();
+            SetsGrid = new DataGridView();
+            SetsGrid.DoubleClick += new EventHandler(SetsGrid_DoubleClick);
+            TextNotification.Visible = false;
+            // Запись ID выбранной модели.
+            modelList.CurrentModelId = Convert.ToInt32(ModelGrid[0, ModelGrid.CurrentCell.RowIndex].Value.ToString());
 
-            string setsTableName = "Specification";
-            try
-            {
-                panel2.Controls.Add(this.SetsGrid);
-                // Почему сдесь 1
-                this.SetsGrid.DataSource = currentSets.GetDataSetFromModelID("1");
-                this.SetsGrid.DataMember = setsTableName;
+            currentSpecification = new ModelSpecification(CONNECTION, modelList);
 
-                this.SetsGrid.BackgroundColor = Color.FromArgb(255, 255, 255);
-                this.SetsGrid.Width = this.panel2.Width;
-                this.SetsGrid.Height = this.panel2.Height;
-                this.SetsGrid.RowHeadersVisible = false;
-                //'.Columns(0).Width = .Width / 2
-                //'.Columns(1).Width = (.Width / 2) - 7
-                this.SetsGrid.ReadOnly = true;
+            // Отрисовка контрола.
+            splitContainer1.Panel2.Controls.Add(SetsGrid);
+            SetsGrid.BackgroundColor = Color.FromArgb(255, 255, 255);
+            SetsGrid.Dock = DockStyle.Fill;
+            SetsGrid.Height = splitContainer1.Panel2.Height;
+            SetsGrid.RowHeadersVisible = false;
+
+            // Назначение Datasourse.
+            SetsGrid.DataSource = currentSpecification.GetSpecificationDataSet().Tables[0];
+            //SetsGrid.DataMember = currentSpecification.SpecificationTableName;
+
+            // Отрисовка колонок.
             
-            }
-            catch (Exception ex)
+            SetsGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            SetsGrid.Columns[0].Width = 30;
+            SetsGrid.Columns[4].Width = 50;        
+           // SetsGrid.ReadOnly = true;
+            //отключаем системные поля
+            SetsGrid.Columns[SetsGrid.ColumnCount-1].Visible = false;
+
+            // Заполнение заголовок колонок.
+            for (int i = 0; i < currentSpecification.SpecificationTableHeaders.Count(); i++)
             {
-                MessageBox.Show(ex.Message);
-                throw;
-            }
+                SetsGrid.Columns[i].HeaderText = currentSpecification.SpecificationTableHeaders[i];
+             }
+
+        }
+
+        private void SetsGrid_DoubleClick(object sender, System.EventArgs e)
+        {
+            //currentSpecification.SetCellValue(Convert.ToInt32(SetsGrid[0, SetsGrid.CurrentCell.RowIndex].Value.ToString()), SetsGrid.CurrentCell.ColumnIndex);           
+            //OleDbDataAdapter daForCellValue = new OleDbDataAdapter();
+            //DataSet optionSet = new DataSet();
+            
+            //int model_id = Convert.ToInt32(SetsGrid[0, SetsGrid.CurrentCell.RowIndex].Value.ToString());
+            //daForCellValue = new OleDbDataAdapter("SELECT " + currentSpecification.PropertyTableName + ".property_id, " + currentSpecification.PropertyTableName + ".property_name, " + currentSpecification.PropertyTableName + ".nom_id FROM "
+            //                                  + currentSpecification.PropertyTableName + " WHERE " + currentSpecification.PropertyTableName + ".nom_id = " + model_id + "", CONNECTION);
+            //daForCellValue.Fill(optionSet, "Property");
+            //optionForms = new EnteryOptionForms(optionSet, "Property");
+
+            //DataGridView OptionGrid = new DataGridView
+            //{
+            //    Dock = DockStyle.Top,
+            //    RowHeadersVisible = false,
+            //    DataSource = optionSet,
+            //    DataMember = "Property",
+            //    AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+            //};
+
+            //optionForms.Controls.Add(OptionGrid);
+            //OptionGrid.Columns[0].Width = 30;
+            //OptionGrid.Columns[OptionGrid.ColumnCount - 1].Visible = false;
+            //for (int i = 0; i < currentSpecification.PropertyTableHeaders.Count(); i++)
+            //{
+            //    OptionGrid.Columns[i].HeaderText = currentSpecification.PropertyTableHeaders[i];
+            //}
+
+            //// Обработчики событий.
+            //OptionGrid.DoubleClick += new EventHandler(OptionGrid_DoubleClick);
+
+
+            ////SetsGrid.CurrentCell.Value = "dsdfdsdfs";
+        }
+        
+        // Вспомогательная форма обработчик событий
+        private void OptionGrid_DoubleClick(object sender, System.EventArgs e)
+        {
+            SetsGrid.CurrentCell.Value = "dsdfdsdfs";
+            optionForms.Close();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -119,15 +179,38 @@ namespace Bochky2._1
             dbBuilder = new OleDbCommandBuilder(dataAdapter);
             try
             {
-                if (dataAdapter.Update(dtmodel, "Model") > 0) {
+                if (dataAdapter.Update(dtmodel, "Model") > 0)
+                {
                     MessageBox.Show("Таблица " + ModelGrid.DataMember + " Сохранена");
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                throw;
-            }       
+
+            }
+        }
+
+        private void Form4_Resize(object sender, EventArgs e)
+        {
+           
+
+        }
+
+        private void Form4_ResizeEnd(object sender, EventArgs e)
+        {
+
+           
+        }
+
+        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void saveSpecificationListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            currentSpecification.SaveSpecification();
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.OleDb;
+using System.Configuration;
 
 namespace Bochky2._1
 {
@@ -18,16 +19,17 @@ namespace Bochky2._1
         
 
         public Form1()
-        {
+        {         
             InitializeComponent();
-            //MessageBox.Show("test");
+           
             this.FormClosed += new FormClosedEventHandler(Form1_Closed);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.StartPosition = FormStartPosition.CenterScreen;
             this.AutoSize = false;
             this.Text = "Программа создания договоров и спецификаций";
-            CONNECTION = new OleDbConnection("provider=Microsoft.ACE.OLEDB.12.0;" + "data source=Database3.accdb");
-           
+
+            CONNECTION = new OleDbConnection(Properties.Settings.Default.Database3ConnectionString);
+            
             try
             {
                 CONNECTION.Open();
