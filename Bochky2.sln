@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2003
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bochky2.1", "Bochky2.1\Bochky2.1.csproj", "{88D9CBF0-E6BC-481D-B59A-AFDB681C541B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bochky2", "Bochky2.1\Bochky2.csproj", "{88D9CBF0-E6BC-481D-B59A-AFDB681C541B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F92DE28A-C8D8-44F9-BA66-3B8655535D76} = {F92DE28A-C8D8-44F9-BA66-3B8655535D76}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Translate", "Translate\Translate.csproj", "{F92DE28A-C8D8-44F9-BA66-3B8655535D76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{88D9CBF0-E6BC-481D-B59A-AFDB681C541B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88D9CBF0-E6BC-481D-B59A-AFDB681C541B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88D9CBF0-E6BC-481D-B59A-AFDB681C541B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F92DE28A-C8D8-44F9-BA66-3B8655535D76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F92DE28A-C8D8-44F9-BA66-3B8655535D76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F92DE28A-C8D8-44F9-BA66-3B8655535D76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F92DE28A-C8D8-44F9-BA66-3B8655535D76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

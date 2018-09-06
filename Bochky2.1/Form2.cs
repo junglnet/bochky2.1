@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.OleDb;
 
-namespace Bochky2._1
+namespace Bochky2
 {
     public partial class Form2 : Form
     {

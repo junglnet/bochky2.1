@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Bochky2._1
+namespace Bochky2
 {
     static class Program
     {

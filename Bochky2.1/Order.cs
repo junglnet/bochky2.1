@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Data.OleDb;
 using System.Windows.Forms;
 
-namespace Bochky2._1
+namespace Bochky2
 {
     public class Order
     {

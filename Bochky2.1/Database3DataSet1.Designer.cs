@@ -10,7 +10,7 @@
 
 #pragma warning disable 1591
 
-namespace Bochky2._1 {
+namespace Bochky2 {
     
     
     /// <summary>
@@ -2442,7 +2442,7 @@ namespace Bochky2._1 {
         }
     }
 }
-namespace Bochky2._1.Database3DataSetTableAdapters {
+namespace Bochky2.Database3DataSetTableAdapters {
     
     
     /// <summary>
@@ -2597,7 +2597,7 @@ namespace Bochky2._1.Database3DataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.OleDb.OleDbConnection();
-            this._connection.ConnectionString = global::Bochky2._1.Properties.Settings.Default.Database3ConnectionString;
+            this._connection.ConnectionString = global::Bochky2.Properties.Settings.Default.Database3ConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2918,7 +2918,7 @@ namespace Bochky2._1.Database3DataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.OleDb.OleDbConnection();
-            this._connection.ConnectionString = global::Bochky2._1.Properties.Settings.Default.Database3ConnectionString;
+            this._connection.ConnectionString = global::Bochky2.Properties.Settings.Default.Database3ConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3258,7 +3258,7 @@ namespace Bochky2._1.Database3DataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.OleDb.OleDbConnection();
-            this._connection.ConnectionString = global::Bochky2._1.Properties.Settings.Default.Database3ConnectionString;
+            this._connection.ConnectionString = global::Bochky2.Properties.Settings.Default.Database3ConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3579,7 +3579,7 @@ namespace Bochky2._1.Database3DataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.OleDb.OleDbConnection();
-            this._connection.ConnectionString = global::Bochky2._1.Properties.Settings.Default.Database3ConnectionString;
+            this._connection.ConnectionString = global::Bochky2.Properties.Settings.Default.Database3ConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3939,7 +3939,7 @@ namespace Bochky2._1.Database3DataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "15.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.OleDb.OleDbConnection();
-            this._connection.ConnectionString = global::Bochky2._1.Properties.Settings.Default.Database3ConnectionString;
+            this._connection.ConnectionString = global::Bochky2.Properties.Settings.Default.Database3ConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using System.Data.OleDb;
 using System.Data;
 
-namespace Bochky2._1
+namespace Bochky2
 {
     public class Model
     {
         OleDbConnection CONNECTION;
-        OleDbDataAdapter dataAdapter;
+        OleDbDataAdapter dAdapterModel;
+        OleDbDataAdapter dAdapterCategory;
 
         public int CurrentModelId { get; set; }
         public string CategoryTableName { get; set; }
@@ -31,10 +32,20 @@ namespace Bochky2._1
         public DataSet GetModelDataSet()
         {
             DataSet ModelDataSet = new DataSet();
-            dataAdapter = new OleDbDataAdapter("Select " + ModelTableName + ".model_id, " + ModelTableName + ".model_name, " +
-                "" + CategoryTableName + ".category_name FROM " + ModelTableName + " INNER JOIN " + CategoryTableName + " On " +
-                "" + CategoryTableName + ".category_id = " + ModelTableName + ".category_id", CONNECTION);
-            dataAdapter.Fill(ModelDataSet, ModelTableName);
+            dAdapterModel = new OleDbDataAdapter("SELECT * FROM " + ModelTableName + "", CONNECTION);
+            dAdapterCategory = new OleDbDataAdapter("SELECT * FROM " + CategoryTableName + "", CONNECTION);
+
+            dAdapterModel.Fill(ModelDataSet, ModelTableName);
+            dAdapterCategory.Fill(ModelDataSet, CategoryTableName);
+
+            ModelDataSet.Relations.Add("Cat_idToModel", ModelDataSet.Tables[CategoryTableName].Columns["category_id"],
+                ModelDataSet.Tables[ModelTableName].Columns["category_id"]);
+
+            ModelDataSet.Tables[ModelTableName].Columns.Add("category_name", typeof(string), "Parent(Cat_idToModel).category_name");
+                       
+            ModelDataSet.Tables[0].Columns["category_name"].SetOrdinal(2);
+            ModelDataSet.Tables[0].Columns["category_name"].Caption = "Что это";
+
             return ModelDataSet;
         }
 

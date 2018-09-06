@@ -1,4 +1,4 @@
-﻿namespace Bochky2._1
+﻿namespace Bochky2
 {
     partial class EnteryOptionForms
     {

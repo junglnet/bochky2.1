@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.Data.OleDb;
 using System.Configuration;
 
-namespace Bochky2._1
+namespace Bochky2
 {
     public partial class Form1 : Form  
     {

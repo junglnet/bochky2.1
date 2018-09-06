@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{88D9CBF0-E6BC-481D-B59A-AFDB681C541B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Bochky2._1</RootNamespace>
-    <AssemblyName>Bochky2.1</AssemblyName>
+    <RootNamespace>Bochky2</RootNamespace>
+    <AssemblyName>Bochky2</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -61,6 +61,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database3DataSet1.cs">
+      <DependentUpon>Database3DataSet1.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Database3DataSet1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -124,6 +127,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Database3DataSet1.xsc">
       <DependentUpon>Database3DataSet1.xsd</DependentUpon>
@@ -165,6 +169,12 @@
     <Content Include="Database3.accdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Translate\Translate.csproj">
+      <Project>{f92de28a-c8d8-44f9-ba66-3b8655535d76}</Project>
+      <Name>Translate</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
