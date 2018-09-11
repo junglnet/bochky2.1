@@ -17,29 +17,35 @@ namespace Bochky2
         
         OleDbConnection CONNECTION;        
         OleDbDataAdapter dataAdapter;
-        OleDbCommandBuilder dbBuilder;
-        Order order;
+        OleDbCommandBuilder dbBuilder;        
         DataGridView ModelGrid;
         DataGridView SetsGrid;
         DataSet dtmodel;
-        EnteryOptionForms optionForms;
-        // DataSet dtsets;
+        DataSet specificationList;
+        EnteryOptionForms optionForms;      
 
         ModelSpecification currentSpecification;
         Model modelList;
-        Label TextNotification = new Label();
+
+        Label TextNotification = new Label()
+        {
+            Text = "Дважды нажмите на моделе для отображения спецификации",
+            Location = new Point(300, 100),
+            Anchor = AnchorStyles.Right,
+            Width = 250,
+            Height = 200,
+            TextAlign = ContentAlignment.MiddleCenter           
+        };
         
-        public Form4(OleDbConnection CONNECTION, Order order)
+        public Form4(OleDbConnection CONNECTION)
         {
             TranslateBase lang = new TranslateBase();
             InitializeComponent();
-            this.CONNECTION = CONNECTION;
-            this.order = order;
-
+            this.CONNECTION = CONNECTION;          
             this.StartPosition = FormStartPosition.CenterScreen;
             this.AutoSize = false;
             this.Text = "Редактирование и создание изделий и спецификаций";
-            this.Visible = true;
+            this.Visible = true;          
 
             saveToolStripMenuItem.Text = lang._SAVE_;
 
@@ -47,30 +53,25 @@ namespace Bochky2
 
         private void Form4_Load(object sender, EventArgs e)
         {
-           
-            ModelGrid = new DataGridView();         
 
-            // Отрисовка формы.            
+            ModelGrid = new DataGridView()
+            {
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                BackgroundColor = Color.FromArgb(255, 255, 255),
+                Dock = DockStyle.Fill,
+                Height = splitContainer1.Panel1.Height,
+                RowHeadersVisible = false,
+                BorderStyle = BorderStyle.None,
+                ReadOnly = true
+            };            
+            
             splitContainer1.Panel1.Controls.Add(ModelGrid);
-            ModelGrid.BackgroundColor = Color.FromArgb(255, 255, 255);            
-            ModelGrid.Dock = DockStyle.Fill;
-            ModelGrid.Height = splitContainer1.Panel1.Height;
-            ModelGrid.RowHeadersVisible = false;
-            ModelGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
+            
             // заполнение моделями
             GetModelListOnDataGrid();
-                       
-            TextNotification.Text = "Дважды нажмите на моделе для отображения спецификации";
-            TextNotification.Location = new Point(300, 100);
-            TextNotification.Anchor = AnchorStyles.Right;
-            TextNotification.Width = 250;
-            TextNotification.Height = 200;
-            TextNotification.TextAlign = ContentAlignment.MiddleCenter;
+            
             splitContainer1.Panel2.Controls.Add(TextNotification);
-            TextNotification.Visible = true;
-
-        }      
+    }      
 
         private void ModelGrid_Click(object sender, System.EventArgs e)
         {
@@ -95,7 +96,9 @@ namespace Bochky2
             //currentSpecification.SetCellValue(Convert.ToInt32(SetsGrid[0, SetsGrid.CurrentCell.RowIndex].Value.ToString()), SetsGrid.CurrentCell.ColumnIndex);           
             //OleDbDataAdapter daForCellValue = new OleDbDataAdapter();
             //DataSet optionSet = new DataSet();
-            
+
+            EnteryOptionForms enteryOptionForms = new EnteryOptionForms(specificationList);
+
             //int model_id = Convert.ToInt32(SetsGrid[0, SetsGrid.CurrentCell.RowIndex].Value.ToString());
             //daForCellValue = new OleDbDataAdapter("SELECT " + currentSpecification.PropertyTableName + ".property_id, " + currentSpecification.PropertyTableName + ".property_name, " + currentSpecification.PropertyTableName + ".nom_id FROM "
             //                                  + currentSpecification.PropertyTableName + " WHERE " + currentSpecification.PropertyTableName + ".nom_id = " + model_id + "", CONNECTION);
@@ -139,18 +142,18 @@ namespace Bochky2
 
         private void GetModelListOnDataGrid()
         {
-            modelList = new Model(CONNECTION);            
+            modelList = new Model(CONNECTION);                 
             dtmodel = new DataSet();
 
             // Назначение datasourse.
+          
             ModelGrid.DataSource = modelList.GetModelDataSet().Tables[0];
             
             // Отрисовка полей.            
             ModelGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             ModelGrid.Columns["model_id"].Width = 30;
             ModelGrid.Columns["model_id"].ReadOnly = true;
-            ModelGrid.Columns["category_id"].Visible = false;
-
+            ModelGrid.Columns["category_id"].Visible = false;            
             // Установка заголовка колонок.
             for (int i = 0; i < modelList.ModelTableHeaders.Count(); i++)
             {
@@ -165,22 +168,28 @@ namespace Bochky2
 
         private void GetSpecificationOnDataGrid()
         {
-            SetsGrid = new DataGridView();
+           
+            SetsGrid = new DataGridView()
+            {
+                BackgroundColor = Color.FromArgb(255, 255, 255),
+                Dock = DockStyle.Fill,
+                BorderStyle = BorderStyle.None,
+                //Height = splitContainer1.Panel2.Height,
+                RowHeadersVisible = false
+            };
+
             SetsGrid.DoubleClick += new EventHandler(SetsGrid_DoubleClick);
 
             // Запись ID выбранной модели.
             modelList.CurrentModelId = Convert.ToInt32(ModelGrid[0, ModelGrid.CurrentCell.RowIndex].Value.ToString());
             currentSpecification = new ModelSpecification(CONNECTION, modelList);
-            
+            specificationList = currentSpecification.GetSpecificationDataSet();
+
             // Отрисовка контрола.
-            splitContainer1.Panel2.Controls.Add(SetsGrid);
-            SetsGrid.BackgroundColor = Color.FromArgb(255, 255, 255);
-            SetsGrid.Dock = DockStyle.Fill;
-            SetsGrid.Height = splitContainer1.Panel2.Height;
-            SetsGrid.RowHeadersVisible = false;
+            splitContainer1.Panel2.Controls.Add(SetsGrid); 
 
             // Назначение Datasourse.
-            SetsGrid.DataSource = currentSpecification.GetSpecificationDataSet().Tables[0];
+            SetsGrid.DataSource = specificationList.Tables[0];
 
             //скрыть ключи
             SetsGrid.Columns["nom_id"].Visible = false;

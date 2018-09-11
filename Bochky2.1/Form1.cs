@@ -76,7 +76,7 @@ namespace Bochky2
 
         private void моделиИСпецификацииToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form4 newForm4 = new Form4(CONNECTION, order);
+            Form4 newForm4 = new Form4(CONNECTION);
             newForm4.Visible = true;
         }
 
